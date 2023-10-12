@@ -1,0 +1,61 @@
+//POSTFIX EVALUATION 
+SOURCE CODE:
+#include<stdio.h>
+#include<string.h>
+#include<math.h>
+#define MAX 100 
+
+int stack[MAX];
+char postfix[MAX];
+int top = -1;
+
+void push(int c) {
+    stack[++top] = c;
+}
+
+int pop() {
+    return stack[top--];
+}
+
+int post_eval() 
+{
+    int i, op1, op2;
+    for (i = 0; i < strlen(postfix); i++) {
+        if (postfix[i] >= '0' && postfix[i] <= '9')
+            push(postfix[i] - '0'); // Convert character to integer
+        else {
+            op2 = pop();
+            op1 = pop();
+            switch (postfix[i]) 
+            {
+                case '+':
+                    push(op1 + op2);
+                    break;
+                case '-':
+                    push(op1 - op2);
+                    break;
+                case '*':
+                    push(op1 * op2);
+                    break;
+                case '/':
+                    push(op1 / op2);
+                    break;
+                case '^':
+                    push(pow(op1, op2));
+                    break;
+            }
+        }
+    }
+    return pop();
+}
+
+int main() 
+{
+    int result;
+    printf("Enter the postfix expression: ");
+    gets(postfix);
+    result = post_eval();
+    printf("The result obtained after postfix evaluation is: ");
+    printf("%d\n", result);
+    return 0;
+}
